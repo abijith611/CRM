@@ -1,0 +1,58 @@
+{% extends "base.html"%}
+
+
+{% block content%}
+
+<section class="text-gray-600 body-font">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="flex flex-col text-center w-full mb-20">
+      <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Complaints</h1>
+      <p class="lg:w-2/3 mx-auto leading-relaxed text-base">
+     These are the complaints
+      </p>
+    {% comment %} <a href = "{% url 'leads:category-create' %}" class = "hover:text-blue-500">Create a category</a> {% endcomment %}
+    </div>
+    <div class="lg:w-2/3 w-full mx-auto overflow-auto">
+      <table class="table-auto w-full text-left whitespace-no-wrap">
+        <thead>
+          <tr>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">Name</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Complaint</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100"></th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100"></th>
+          </tr>
+        </thead>
+        <tbody>
+        {% comment %} <tr>
+            <td class="px-4 py-3">Unassigned</td>
+            <td class="px-4 py-3"></td>
+            </td>
+        </tr> {% endcomment %}
+        {% for feedback in feedback_list %}
+          <tr>
+          <td class="px-4 py-3">
+            {{ feedback.name }}
+            {% comment %} <a class = "hover:text-blue-500" href = "{% url 'leads:category-detail' category.pk %}">{{ category.name }}</a> {% endcomment %}
+          </td>
+            <td class="px-4 py-3" style="overflow-wrap: anywhere;">
+              {{ feedback.feedback }}
+            </td>
+            <td class="px-4 py-3">
+               <a href = "{% url 'leads:feedback-notify' feedback.pk%}"><button  class = "bg-blue-500 hover:bg-blue-600 px-3 py-2 rounded-md text-white">
+                Notify
+              </button></a> 
+            </td>
+            <td class="px-4 py-3">
+               <a href = "{% url 'leads:feedback-delete' feedback.pk%}"><button class = "bg-red-500 hover:bg-red-600 px-3 py-2 rounded-md text-white">
+                Delete
+              </button></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}
