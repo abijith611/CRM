@@ -7,15 +7,44 @@
   <div class="container px-5 py-24 mx-auto">
     <div class="flex flex-col text-center w-full mb-20">
        <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">
-      An email has been sent to {{email}}
+        Complaint details
+      {% comment %} An email has been sent to {{email}} {% endcomment %}
       </h1> 
-      {% comment %} <p class="lg:w-2/3 mx-auto leading-relaxed text-base">
-
-      </p> {% endcomment %}
+      <div class = "flex items-center">
+      <table class="mt-10 mx-auto table-auto w-1/2 text-left whitespace-no-wrap">
+        <tbody>
+          <tr>
+            <td class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl w-1/8">Name</td>
+            <td class="px-4 py-3 w-1/8">{{ feedback.name }}</td>  
+          </tr>
+          <tr>
+            <td class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Email</td>
+            <td class="px-4 py-3">{{ feedback.email }}</td>
+          </tr>
+          <tr>
+            <td class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Complaint</td>
+            <td class="px-4 py-3">{{ feedback.feedback }}</td>
+          </tr>
+          <tr>
+            <td class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Complaint log time</td>
+            <td class="px-4 py-3">{{ feedback.time }}</td>
+          </tr>
+          <tr>
+            <td class="px-20 py-3 "><a href = "{% url 'leads:feedback-delete' feedback.pk%}"><button class = "mx-auto bg-red-500 hover:bg-red-600 px-3 py-2 rounded-md text-white">
+              Delete
+            </button></a></td>
+            <td class="px-20 py-3 "><a href = "{% url 'leads:complaints' %}"><button  class = "mx-auto bg-blue-500 hover:bg-blue-600 px-3 py-2 rounded-md text-white">
+              Go back
+            </button></a></td>
+             
+          </tr>
+        </tbody>
+      </table>
+       
+    </div>
+     
       <br><br><br>
-     <a href = "{% url 'leads:complaints' %}"><button  class = "w-1/2 bg-blue-500 hover:bg-blue-600 px-3 py-2 rounded-md text-white">
-      Go back
-    </button></a> 
+     
       {% comment %} <a href="{% url 'leads:category-delete' category.pk %}" class = "hover:text-blue-500">Delete</a> {% endcomment %} 
 
     </div>

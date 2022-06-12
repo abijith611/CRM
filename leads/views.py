@@ -1,5 +1,6 @@
 #ctrl+k   ctrl+0 to close all methods
 from django.core.mail import EmailMessage
+import smtplib, ssl
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -423,19 +424,32 @@ class FeedbackNotifyView(LoginRequiredMixin, generic.DetailView):
     
     def get_context_data(self, **kwargs):
         context = super(FeedbackNotifyView, self).get_context_data(**kwargs)
-        print("email: ",self.object.email)
+        # print("email: ",self.object.email)
         context['email'] = self.object.email
         # context.update({
         #     "email" : self.object.email
         # })
-        email =EmailMessage(
-            subject = "Regarding your feedback", 
-            body ="your feedback is noted by the agent: "+self.request.user.username,
-            from_email=self.request.user.email,
-            to=[self.object.email]
-        )
 
-        email.send()
+        smtp_server = "smtp.gmail.com"
+        port = 587
+        sender_email = "***REMOVED***"
+        password = "***REMOVED***"
+        context1 = ssl.create_default_context()
+        server = smtplib.SMTP(smtp_server, port)
+        
+        try:
+            server.ehlo()
+            server.starttls(context=context1)
+            server.login(sender_email,password)
+            message = "\n your feedback is noted by the agent: "+self.request.user.username
+            server.sendmail(sender_email, self.object.email, msg = message)
+            self.object.is_read = True
+            self.object.save()
+        except Exception as e:
+            print(e)
+        finally:
+            server.quit()
+        
         return context
     
     def get_queryset(self):
@@ -455,12 +469,25 @@ class FeedbackDeleteView(LoginRequiredMixin, generic.DeleteView):
         return queryset
 
     def get_success_url(self):
-        email =EmailMessage(
-            subject = "Regarding your feedback", 
-            body ="your feedback is deleted by the agent: " +self.request.user.username,
-            from_email=self.request.user.email,
-            to=[self.object.email]
-        )
+        smtp_server = "smtp.gmail.com"
+        port = 587
+        sender_email = "***REMOVED***"
+        password = "***REMOVED***"
+        context1 = ssl.create_default_context()
+        server = smtplib.SMTP(smtp_server, port)
+        
+        try:
+            server.ehlo()
+            server.starttls(context=context1)
+            server.login(sender_email,password)
+            message = "\n your feedback is deleted by the agent: " +self.request.user.username
+            server.sendmail(sender_email, self.object.email, msg = message)
+            self.object.is_read = True
+            self.object.save()
+        except Exception as e:
+            print(e)
+        finally:
+            server.quit()
 
-        email.send()
+        # email.send()
         return reverse("leads:complaints")

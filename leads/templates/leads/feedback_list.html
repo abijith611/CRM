@@ -2,7 +2,14 @@
 
 
 {% block content%}
-
+<style>
+  tr:hover {
+    background: #f3f4f6;
+ }
+ td a {
+   display: block;
+   }
+</style>
 <section class="text-gray-600 body-font">
   <div class="container px-5 py-24 mx-auto">
     <div class="flex flex-col text-center w-full mb-20">
@@ -17,9 +24,9 @@
         <thead>
           <tr>
             <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">Name</th>
-            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Complaint</th>
-            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100"></th>
-            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100"></th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Email</th>
+            <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Complaint log date</th>
+
           </tr>
         </thead>
         <tbody>
@@ -29,24 +36,44 @@
             </td>
         </tr> {% endcomment %}
         {% for feedback in feedback_list %}
-          <tr>
+        <tr class = "hover:gray-100">
+          
           <td class="px-4 py-3">
-            {{ feedback.name }}
+            {% if feedback.is_read %}
+            <a href = "{% url 'leads:feedback-notify' feedback.pk%}" class="text-gray-400">{{ feedback.name }}</a>
+            
+            {% else %}
+            <a href = "{% url 'leads:feedback-notify' feedback.pk%}">{{ feedback.name }}</a>
+            {% endif %}
             {% comment %} <a class = "hover:text-blue-500" href = "{% url 'leads:category-detail' category.pk %}">{{ category.name }}</a> {% endcomment %}
           </td>
             <td class="px-4 py-3" style="overflow-wrap: anywhere;">
-              {{ feedback.feedback }}
+              {% if feedback.is_read %}
+              <a href = "{% url 'leads:feedback-notify' feedback.pk%}" class="text-gray-400">{{ feedback.email }}</a>
+            {% else %}
+              <a href = "{% url 'leads:feedback-notify' feedback.pk%}">{{ feedback.email }}</a>
+            {% endif %}
+
             </td>
-            <td class="px-4 py-3">
+            <td class="px-4 py-3" style="overflow-wrap: anywhere;">
+              {% if feedback.is_read %}
+              <a href = "{% url 'leads:feedback-notify' feedback.pk%}" class="text-gray-400">{{ feedback.time }}</a>
+            {% else %}
+              <a href = "{% url 'leads:feedback-notify' feedback.pk%}">{{ feedback.time }}</a>
+            {% endif %}
+
+            </td>
+          
+            {% comment %} <td class="px-4 py-3">
                <a href = "{% url 'leads:feedback-notify' feedback.pk%}"><button  class = "bg-blue-500 hover:bg-blue-600 px-3 py-2 rounded-md text-white">
                 Notify
               </button></a> 
             </td>
             <td class="px-4 py-3">
-               <a href = "{% url 'leads:feedback-delete' feedback.pk%}"><button class = "bg-red-500 hover:bg-red-600 px-3 py-2 rounded-md text-white">
+              <a href = "{% url 'leads:feedback-delete' feedback.pk%}"><button class = "bg-red-500 hover:bg-red-600 px-3 py-2 rounded-md text-white">
                 Delete
               </button></a>
-            </td>
+            </td> {% endcomment %}
           </tr>
           {% endfor %}
         </tbody>

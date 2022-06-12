@@ -1,4 +1,7 @@
-from statistics import mode
+# from statistics import models
+from email.policy import default
+# from time import timezone
+from django.utils import timezone
 from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser
@@ -46,6 +49,8 @@ class Agent(models.Model):
 class Feedback(models.Model):
     name = models.CharField(max_length= 20)
     email = models.EmailField()
+    time = models.DateField(default = timezone.now)
+    is_read = models.BooleanField(default = False)
     feedback = models.TextField()
     sentiment_value = models.IntegerField(default=-1)
 
