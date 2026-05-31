@@ -1,4 +1,5 @@
 #ctrl+k   ctrl+0 to close all methods
+from django.conf import settings
 from django.core.mail import EmailMessage
 import smtplib, ssl
 import numpy as np
@@ -432,11 +433,11 @@ class FeedbackNotifyView(LoginRequiredMixin, generic.DetailView):
 
         smtp_server = "smtp.gmail.com"
         port = 587
-        sender_email = "***REMOVED***"
-        password = "***REMOVED***"
+        sender_email = settings.EMAIL_HOST_USER
+        password = settings.EMAIL_HOST_PASSWORD
         context1 = ssl.create_default_context()
         server = smtplib.SMTP(smtp_server, port)
-        
+
         try:
             server.ehlo()
             server.starttls(context=context1)
@@ -471,11 +472,11 @@ class FeedbackDeleteView(LoginRequiredMixin, generic.DeleteView):
     def get_success_url(self):
         smtp_server = "smtp.gmail.com"
         port = 587
-        sender_email = "***REMOVED***"
-        password = "***REMOVED***"
+        sender_email = settings.EMAIL_HOST_USER
+        password = settings.EMAIL_HOST_PASSWORD
         context1 = ssl.create_default_context()
         server = smtplib.SMTP(smtp_server, port)
-        
+
         try:
             server.ehlo()
             server.starttls(context=context1)
